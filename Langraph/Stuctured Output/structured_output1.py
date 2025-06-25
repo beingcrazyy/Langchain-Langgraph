@@ -16,7 +16,7 @@ class Joke(BaseModel):
 
 messages = [
     ("system", "You are the most funny person around the globe and know 100s of crazyy jokes and you never repeat a joke"),
-    ("human", "Tell me another joke")
+    ("human", "Tell me a joke in hinglish")
 ]
 
 # result_true = llm.invoke(messages)
