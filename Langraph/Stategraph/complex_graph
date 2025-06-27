@@ -1,0 +1,48 @@
+from typing import TypedDict, List, Annotated
+from langgraph.graph import END, StateGraph
+import operator
+
+class ComplexState(TypedDict):
+    count : int
+    sum : Annotated[int, operator.add]
+    history : Annotated[List[int], operator.concat]
+
+def changes(state : ComplexState) -> ComplexState :
+
+    new_count = state["count"] + 1
+    return{
+        "count" : new_count,
+        "sum" : new_count,
+        "history" : [new_count]
+    }
+
+def should_continue(state : ComplexState) -> ComplexState:
+    if(state["count"] < 10):
+        return "changes"
+    return END
+
+graph = StateGraph(ComplexState)
+
+graph.add_node("changes", changes)
+graph.set_entry_point("changes")
+graph.add_conditional_edges("changes", should_continue)
+
+app = graph.compile()
+
+state = {
+    "count" : 1,
+    "sum" : 1,
+    "history" : []
+}
+
+result = app.invoke(state)
+
+print(result)
+
+
+
+
+
+
+
+
