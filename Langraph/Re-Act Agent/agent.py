@@ -1,8 +1,9 @@
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
-from langchain.agents import initialize_agent, tool
+from langchain.agents import create_react_agent, tool
 from langchain_tavily import TavilySearch
 import datetime
+from langchain import hub
 
 load_dotenv()
 
@@ -25,8 +26,6 @@ def Tavily_search_tool(query: str):
 
 tools = [Tavily_search_tool, get_system_time]
 
-agent = initialize_agent(tools=tools, llm=llm, verbose=True)
+react_prompt = hub.pull("hwchase17/react")
 
-# agent.invoke("When was SpaceX's last launch and how many days ago was that from this instant")
-
-agent.invoke("When did mahatma gandhi died?")
+react_agent_runnable = create_react_agent(tools=tools, llm = llm, prompt= react_prompt)

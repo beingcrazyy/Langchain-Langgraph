@@ -22,7 +22,7 @@ def event_loop(state:List[BaseMessage]) -> str:
     num_iterations = count_tool_visits
 
     if num_iterations > MAX_ITERATIONS:
-        return END
+        return END  
     return "execute_tools"
 
 graph.add_conditional_edges("Reviser", event_loop)
